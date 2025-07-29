@@ -1,41 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Data dari Google Sheet</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2em;
-      background: #f9f9f9;
-    }
-    h1 {
-      color: #333;
-    }
-    pre {
-      background: #eee;
-      padding: 1em;
-      border-radius: 6px;
-      overflow-x: auto;
-    }
-  </style>
+  <title>Ambil Data Google Sheet</title>
 </head>
 <body>
   <h1>Data dari Google Sheet</h1>
-  <pre id="output">Memuat data...</pre>
+  <div id="output"></div>
 
   <script>
     fetch("https://script.google.com/macros/s/AKfycbz18VrmRMZgmFiukKbJveShsJdynNa9SeFpae_CgRur1_jIRwbDQGWQJ6uL9IJhbiLO/exec")
-      .then(res => {
-        if (!res.ok) throw new Error("Network response was not ok: " + res.status);
-        return res.json();
-      })
+      .then(response => response.json())
       .then(data => {
-        document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+        const output = document.getElementById("output");
+        output.innerHTML = "<pre>" + JSON.stringify(data, null, 2) + "</pre>";
       })
-      .catch(err => {
-        console.error("Fetch error:", err);
-        document.getElementById("output").textContent = "Gagal memuat data: " + err.message;
+      .catch(error => {
+        console.error("Error:", error);
       });
   </script>
 </body>
